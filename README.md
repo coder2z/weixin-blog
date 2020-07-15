@@ -13,11 +13,11 @@
 ```
 //key固定为key
 //field为需要爬虫的网站
-//field为需要爬取的数据的路由正则（比如：https://myxy99.cn/posts/? 就是爬取所有路由为https://myxy99.cn/posts开始的）
+//field为需要爬取的数据的路由正则（比如：https://myxy99.cn/posts/[^\s] 就是爬取所有路由为https://myxy99.cn/posts开始的）
 hset key field value
 
 // 示例
-// hset BlogUrl https://myxy99.cn https://myxy99.cn/posts/?
+// hset BlogUrl https://myxy99.cn https://myxy99.cn/posts/[^\s]
 
 ```
 
