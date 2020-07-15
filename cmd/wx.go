@@ -19,6 +19,11 @@ func main() {
 		log.Panic(err.Error())
 	}
 
+	if data == nil {
+		log.Panic("没有新文章")
+		return
+	}
+
 	//封装发送的数据
 	var message string
 	for key, value := range data {
@@ -53,6 +58,9 @@ func main() {
 	if err != nil {
 		log.Panic(err.Error())
 	}
+
+	//待发数据
+	redis.HDel("BlogUrl_req")
 
 	log.Println("文章发送成功!")
 }
