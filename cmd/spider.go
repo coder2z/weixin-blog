@@ -23,6 +23,7 @@ func main() {
 	for key, value := range webList {
 		c := colly.NewCollector(
 			colly.AllowedDomains(strings.Split(key, "//")[1]),
+			colly.Async(true),
 		)
 		c.OnRequest(func(request *colly.Request) {
 			//去重
@@ -53,5 +54,6 @@ func main() {
 			}
 		})
 		_ = c.Visit(key)
+		c.Wait()
 	}
 }
