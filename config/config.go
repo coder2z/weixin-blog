@@ -28,7 +28,7 @@ func (c *Config) GetConf() *Config {
 	if err != nil {
 		log.Panic(err.Error())
 	}
-	err = yaml.Unmarshal(yamlFile, c)
+	err = yaml.Unmarshal(yamlFile, &c)
 	if err != nil {
 		log.Panic(err.Error())
 	}

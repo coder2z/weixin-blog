@@ -16,4 +16,5 @@ require (
 	github.com/temoto/robotstxt v1.1.1 // indirect
 	golang.org/x/net v0.0.0-20200707034311-ab3426394381 // indirect
 	google.golang.org/appengine v1.6.6 // indirect
+	gopkg.in/yaml.v2 v2.3.0
 )

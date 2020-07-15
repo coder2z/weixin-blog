@@ -2,11 +2,10 @@ package test
 
 import (
 	"testing"
-	Redis "wx-blog/redis"
 )
 
 func TestRedis(t *testing.T) {
-	redis := Redis.NewRedis()
+	//redis := Redis.NewRedis()
 
 	//result, _ := redis.LRange("testList", 0, 100).Result()
 	//加
@@ -22,8 +21,8 @@ func TestRedis(t *testing.T) {
 
 	//	"https://myxy99.cn": "https://myxy99.cn/posts/?",
 	//	"https://ccctop.cn": "https://ccctop.cn/cxlittlecute/?",
-	redis.HSet("BlogUrl", "https://myxy99.cn", "https://myxy99.cn/posts/?")
-	redis.HSet("BlogUrl", "https://ccctop.cn", "https://ccctop.cn/cxlittlecute/?")
+	//redis.HSet("BlogUrl", "https://myxy99.cn", "https://myxy99.cn/posts/?")
+	//redis.HSet("BlogUrl", "https://ccctop.cn", "https://ccctop.cn/cxlittlecute/?")
 
 
 

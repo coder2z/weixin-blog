@@ -3,13 +3,17 @@ package test
 import (
 	"fmt"
 	"testing"
+	"wx-blog/config"
 	"wx-blog/weix"
 )
 
 func TestGetToken(t *testing.T) {
+	i := config.Config{}
+	conf := i.GetConf()
+
 	wx := weix.WeiX{
-		AppID:     "wx4f7b7433b130cd99",
-		AppSecret: "defede7ff66c746a6ca09b8ab48ce211",
+		AppSecret: conf.WX.AppSecret,
+		AppID:     conf.WX.AppID,
 	}
 
 	err := wx.GetToken()
