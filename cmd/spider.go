@@ -1,63 +1,57 @@
 package main
 
 import (
-	"crypto/md5"
-	"encoding/hex"
 	"fmt"
 	"github.com/gocolly/colly"
 	"regexp"
 	"strings"
+	"wx-blog/config"
 	Redis "wx-blog/redis"
+	"wx-blog/utils"
 )
-
-func getMd5(str string) string {
-	h := md5.New()
-	h.Write([]byte(str))
-	return hex.EncodeToString(h.Sum(nil))
-}
 
 func main() {
 
-	redis := Redis.NewRedis()
+	i := config.Config{}
+	conf := i.GetConf()
+	redis := Redis.NewRedis(conf)
 
 	//爬虫采集 收集到redis
 
-	webList:=redis.HGetAll("BlogUrl").Val()
-
+	//获取需要爬取的地址
+	webList := redis.HGetAll("BlogUrl").Val()
 	for key, value := range webList {
 		c := colly.NewCollector(
 			colly.AllowedDomains(strings.Split(key, "//")[1]),
 		)
-		// Find and visit all links
 		c.OnRequest(func(request *colly.Request) {
-			//分析最新的连接
-			ok, _ := redis.HExists("BlogUrl", getMd5(request.URL.String())).Result()
+			//去重
+			ok, _ := redis.HExists("BlogUrl", utils.GetMd5(request.URL.String())).Result()
 			if ok {
 				request.Abort()
 				return
 			}
 			fmt.Println(request.URL.String())
 		})
-
 		c.OnHTML("a[href]", func(e *colly.HTMLElement) {
+			//获取所有a
 			_ = e.Request.Visit(e.Attr("href"))
 
 		})
 		c.OnHTML("title", func(e *colly.HTMLElement) {
+
+			//文章页面正则提取
 			matched, _ := regexp.MatchString(value, e.Request.URL.String())
 			if matched {
-				//缓存到发送
-				//最新的连接存储到redis
 
+				//最新的连接存储到redis
 				redis.HSet("BlogUrl_req", e.Text, e.Request.URL.String())
 
 				//去记录重库
-				redis.HSet("BlogUrl_db", getMd5(e.Request.URL.String()), e.Text)
+				redis.HSet("BlogUrl_db", utils.GetMd5(e.Request.URL.String()), e.Text)
 
 			}
 		})
 		_ = c.Visit(key)
 	}
-
-	//公众号推送，根据最新的redis
 }
