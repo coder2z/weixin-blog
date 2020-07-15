@@ -5,5 +5,5 @@ redis:
   poolSize: 10
 
 wx:
-  appID: wx4f7b7433b130cd99
-  appSecret: defede7ff66c746a6ca09b8ab48ce211
+  appID:
+  appSecret:
